@@ -430,23 +430,28 @@ For missing endpoints, create Laravel controller/route before refactoring the Ne
 
 ## Progress Tracking
 
-### Completed Routes (0/13)
-- [ ] `app/api/directory/route.ts`
-- [ ] `app/api/directory/search/route.ts`
-- [ ] `app/api/partners/route.ts`
+### ✅ Category 1: Read-Only Routes (7/7) - COMPLETE!
+- [x] `app/api/directory/route.ts` ✓
+- [x] `app/api/directory/search/route.ts` ✓
+- [x] `app/api/partners/route.ts` ✓
+- [x] `app/api/story-categories/route.ts` ✓
+- [x] `app/api/towns/route.ts` ✓
+- [x] `app/api/auth/get-session/route.ts` ✓
+- [x] `app/api/posts/ingest/route.ts` ✓
+
+### 🔄 Category 2: Form Submissions (0/2)
+- [ ] `app/api/stories/submit/route.ts`
+- [ ] `app/api/submit-event/route.ts`
+
+### Category 3: Analytics/Tracking (0/3)
+- [ ] `app/api/stories/track/route.ts`
 - [ ] `app/api/partners/[slug]/track-view/route.ts`
 - [ ] `app/api/partners/[slug]/track-click/route.ts`
-- [ ] `app/api/story-categories/route.ts`
-- [ ] `app/api/stories/submit/route.ts`
-- [ ] `app/api/stories/track/route.ts`
-- [ ] `app/api/submit-event/route.ts`
-- [ ] `app/api/towns/route.ts`
-- [ ] `app/api/auth/get-session/route.ts`
-- [ ] `app/api/posts/ingest/route.ts`
+
+### Category 4: Webhooks (0/1)
 - [ ] `app/api/webhooks/clerk/route.ts`
 
-### Remaining Routes
-Start with Category 1 (Read-Only routes) - they're the easiest!
+### Total Progress: 7/13 routes completed
 
 ## Success Criteria
 
