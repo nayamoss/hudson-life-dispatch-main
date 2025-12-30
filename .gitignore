@@ -1,0 +1,32 @@
+# Environment variables - never commit these!
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.staging.local
+
+# Environment backup files - NEVER COMMIT THESE
+.env*.backup
+.env*.bak
+.env*.bak2
+.env*.old
+
+# IDE and editor files
+.vscode/
+.cursor/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Terminal logs
+terminals/
+
