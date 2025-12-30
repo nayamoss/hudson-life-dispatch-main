@@ -10,6 +10,27 @@
 - NO lib/ or scripts/ folders with code
 - ONLY .md files and folders for organization
 
+## 🔗 ADMIN URLS (NEVER FORGET THIS!)
+
+**⚠️ PRODUCTION ADMIN URL:**
+```
+https://admin.hudsonlifedispatch.com
+```
+**NO /admin PATH!** The subdomain IS the admin.
+
+**Development admin:**
+```
+http://localhost:8000/admin
+```
+
+**WRONG:**
+- ❌ `https://admin.hudsonlifedispatch.com/admin` (double admin path!)
+- ❌ `https://hudsonlifedispatch.com/admin` (wrong domain!)
+
+**RIGHT:**
+- ✅ Production: `https://admin.hudsonlifedispatch.com`
+- ✅ Development: `http://localhost:8000/admin`
+
 ## Where is the Code?
 
 All code is in the frontend repository:

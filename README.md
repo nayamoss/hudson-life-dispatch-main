@@ -51,6 +51,22 @@ See `REPO-STRUCTURE.md` for details.
 
 ---
 
+## 🔗 SITE URLS
+
+### Production
+- **Public Site:** `https://hudsonlifedispatch.com`
+- **Admin Panel:** `https://admin.hudsonlifedispatch.com` ⚠️ **NO /admin PATH!**
+- **API:** `https://admin.hudsonlifedispatch.com/api`
+
+### Development
+- **Public Site:** `http://localhost:3000`
+- **Admin Panel:** `http://localhost:8000/admin`
+- **API:** `http://localhost:8000/api`
+
+**Important:** The production admin subdomain IS the admin - no `/admin` path needed!
+
+---
+
 ## 🚀 QUICK START
 
 ### If You Want To Start Marketing TODAY
