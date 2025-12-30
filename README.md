@@ -60,10 +60,10 @@ See `REPO-STRUCTURE.md` for details.
 
 ### Development
 - **Public Site:** `http://localhost:3000`
-- **Admin Panel:** `http://localhost:8000/admin`
+- **Admin Panel:** `http://localhost:8000` ⚠️ **NO /admin PATH!**
 - **API:** `http://localhost:8000/api`
 
-**Important:** The production admin subdomain IS the admin - no `/admin` path needed!
+**CRITICAL:** NO /admin path on EITHER admin URL!
 
 ---
 

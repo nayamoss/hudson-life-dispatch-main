@@ -12,24 +12,28 @@
 
 ## 🔗 ADMIN URLS (NEVER FORGET THIS!)
 
-**⚠️ PRODUCTION ADMIN URL:**
+**⚠️ NO /admin PATH ON EITHER URL!**
+
+**Production admin:**
 ```
 https://admin.hudsonlifedispatch.com
 ```
-**NO /admin PATH!** The subdomain IS the admin.
 
 **Development admin:**
 ```
-http://localhost:8000/admin
+http://localhost:8000
 ```
 
 **WRONG:**
-- ❌ `https://admin.hudsonlifedispatch.com/admin` (double admin path!)
+- ❌ `https://admin.hudsonlifedispatch.com/admin` (NO /admin path!)
+- ❌ `http://localhost:8000/admin` (NO /admin path!)
 - ❌ `https://hudsonlifedispatch.com/admin` (wrong domain!)
 
 **RIGHT:**
 - ✅ Production: `https://admin.hudsonlifedispatch.com`
-- ✅ Development: `http://localhost:8000/admin`
+- ✅ Development: `http://localhost:8000`
+
+**NO /admin PATH ON EITHER ONE!**
 
 ## Where is the Code?
 
