@@ -146,6 +146,103 @@ use Illuminate\Validation\Rules\Password;
 
 ---
 
+### Issue #6: No Rate Limiting - Authentication Endpoints ✅ FIXED
+
+**Location:** Backend API routes and frontend webhooks
+
+**Problem:**
+- Backend `/api/login` and `/api/register` had zero rate limiting
+- Unlimited brute force attacks possible on authentication endpoints
+- Webhook endpoint vulnerable to DoS attacks
+- Session endpoint could be abused for enumeration attacks
+
+**Solution Applied:**
+
+**1. Backend (Laravel) - Added throttle middleware:**
+
+`backend/routes/api.php` - Lines 46-47:
+```php
+// BEFORE (NO PROTECTION):
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// AFTER (PROTECTED):
+Route::post('/register', [AuthController::class, 'register'])
+    ->middleware('throttle:5,15'); // 5 attempts per 15 minutes
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('throttle:5,15'); // 5 attempts per 15 minutes
+```
+
+Line 135 - Password change:
+```php
+Route::put('/user/password', [AuthController::class, 'changePassword'])
+    ->middleware('throttle:3,60'); // 3 attempts per hour
+```
+
+**2. Frontend (Next.js) - Added rate limiting via `lib/rate-limit.ts`:**
+
+Updated `frontend/lib/rate-limit.ts` with new rate limit types:
+```typescript
+export const RATE_LIMITS = {
+  // ... existing limits ...
+  
+  // Webhook endpoints
+  webhook: {
+    windowMs: 60 * 1000, // 1 minute
+    maxRequests: 30, // Allow burst but prevent DoS
+  },
+  
+  // Session checks (lenient)
+  session: {
+    windowMs: 60 * 1000, // 1 minute  
+    maxRequests: 30,
+  },
+} as const;
+```
+
+Protected endpoints:
+- `frontend/app/api/webhooks/clerk/route.ts` - Clerk webhook (30 req/min)
+- `frontend/app/api/auth/get-session/route.ts` - Session checks (30 req/min)
+
+**3. Cleanup:**
+- Removed broken `/api/auth/[...all]` route that imported from non-existent `@/lib/auth`
+- Clerk handles all authentication, so this unused route was deleted
+
+**Rate Limit Response Format:**
+```json
+{
+  "error": "Too many requests"
+}
+```
+
+Response Headers:
+- `Status: 429 Too Many Requests`
+- `X-RateLimit-Limit`: Maximum requests allowed
+- `X-RateLimit-Remaining`: Requests remaining in window
+- `Retry-After`: Seconds until limit resets
+
+**Summary of Protected Endpoints:**
+
+| Endpoint | Method | Rate Limit | Implementation |
+|----------|--------|------------|----------------|
+| `/api/login` | POST | 5 per 15 min | Laravel throttle middleware |
+| `/api/register` | POST | 5 per 15 min | Laravel throttle middleware |
+| `/api/user/password` | PUT | 3 per hour | Laravel throttle middleware |
+| `/api/webhooks/clerk` | POST | 30 per min | Frontend rate-limit.ts |
+| `/api/auth/get-session` | GET | 30 per min | Frontend rate-limit.ts |
+
+**Security Impact:**
+- ✅ Brute force attacks mitigated (max 5 login attempts per 15 minutes)
+- ✅ Account enumeration attacks prevented
+- ✅ Webhook DoS attacks blocked
+- ✅ Password change attacks limited (3 per hour)
+- ✅ Session enumeration prevented
+
+**Implementation Note:**
+Uses in-memory rate limiting (suitable for single-server deployment). For multi-server deployments, upgrade to Redis-based rate limiting (Upstash) for distributed tracking.
+
+---
+
 ## Issue #1: Exposed Credentials in Git History ✅ FIXED
 
 **Location:** `frontend-broken-backup/.env.local`
