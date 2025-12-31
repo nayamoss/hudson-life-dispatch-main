@@ -1,166 +1,154 @@
-# AGENTS.md - Hudson Life Dispatch
+# AGENTS.MD - Hudson Life Dispatch
 
-## Repository Rules
+## 🚨 CRITICAL ARCHITECTURE RULE
 
-**⚠️ CRITICAL: This repo is for DOCUMENTATION ONLY**
+### Frontend = Display + Submit + Profile ONLY
+### Backend = EVERYTHING ELSE
 
-- NO code files (.ts, .tsx, .js, .py, etc.)
-- NO package.json
-- NO node_modules
-- NO lib/ or scripts/ folders with code
-- ONLY .md files and folders for organization
-
-## 🔗 ADMIN URLS (NEVER FORGET THIS!)
-
-**⚠️ NO /admin PATH ON EITHER URL!**
-
-**Production admin:**
-```
-https://admin.hudsonlifedispatch.com
-```
-
-**Development admin:**
-```
-http://localhost:8000
-```
-
-**WRONG:**
-- ❌ `https://admin.hudsonlifedispatch.com/admin` (NO /admin path!)
-- ❌ `http://localhost:8000/admin` (NO /admin path!)
-- ❌ `https://hudsonlifedispatch.com/admin` (wrong domain!)
-
-**RIGHT:**
-- ✅ Production: `https://admin.hudsonlifedispatch.com`
-- ✅ Development: `http://localhost:8000`
-
-**NO /admin PATH ON EITHER ONE!**
-
-## Where is the Code?
-
-All code is in the frontend repository:
-
-```
-/Users/nierda/GitHub/sites/hudson-life-dispatch-marketing/frontend
-```
-
-## Running Automation Scripts
-
-**Always run from the frontend directory:**
-
-```bash
-cd /Users/nierda/GitHub/sites/hudson-life-dispatch-marketing/frontend
-
-npm run scrape:events        # Scrape events
-npm run scrape:businesses    # Discover businesses
-npm run newsletter:generate  # Generate newsletter
-npm run seed:towns          # Seed database
-```
-
-### Full Script List
-
-```bash
-# Individual scrapers
-npm run scrape:events         # Eventbrite + Facebook events
-npm run scrape:businesses     # Discover new businesses via Perplexity
-npm run scrape:real-estate    # Real estate listings
-npm run scrape:all           # Run all scrapers at once
-
-# Newsletter
-npm run newsletter:generate   # Generate weekly newsletter content
-
-# Database
-npm run seed:towns           # Add Hudson River towns to database
-```
-
-## Project Structure
+## Repository Structure
 
 ```
 hudson-life-dispatch-main/              (THIS REPO - DOCS ONLY)
 ├── AGENTS.md                          (This file)
-├── REPO-STRUCTURE.md                  (Structure documentation)
-├── AUTOMATION-SETUP.md                (How automation works)
-├── MARKETING-PLAN.md                  (Marketing strategy)
-└── (other .md files)
+├── Documentation files (.md)
 
-hudson-life-dispatch-marketing/         (CODE REPO)
-├── frontend/                          (Next.js - ALL CODE HERE)
-│   ├── app/                          (Next.js app routes)
-│   ├── components/                   (React components)
-│   ├── lib/                          (Database, newsletter generator)
-│   │   ├── db/                      (Database schema & connection)
-│   │   └── newsletter-generator.ts  (Newsletter content generation)
-│   └── scripts/                      (Automation scripts)
-│       ├── scrapers/                (Content scrapers)
-│       ├── newsletter/              (Newsletter scripts)
-│       ├── import-coffee-shops.ts
-│       └── seed-hudson-river-towns.ts
-└── backend/                          (Laravel API - PHP)
+hudson-life-dispatch-frontend/         (Next.js - PUBLIC DISPLAY)
+├── AGENTS.md                          (Frontend rules)
+├── app/                               (Display pages only)
+├── components/                        (Display components)
+└── Public submission forms & user profiles
+
+hudson-life-dispatch-backend/          (Laravel + Filament - ALL ADMIN)
+├── AGENTS.md                          (Backend rules)
+├── app/Filament/                      (ALL admin panels)
+├── app/Http/Controllers/Api/          (Public APIs)
+└── ALL business logic, CRUD, admin features
 ```
 
-## Environment Setup
+## ⚠️ Where Does Code Go?
 
-Before running scripts, ensure you have:
+### Frontend (Next.js) - `hudsonlifedispatch.com`
 
-```bash
-# In frontend/.env.local
-DATABASE_URL=postgresql://...
-EVENTBRITE_API_KEY=...
-PERPLEXITY_API_KEY=...
-FACEBOOK_ACCESS_TOKEN=...
-RESEND_API_KEY=...
+**✅ ALLOWED:**
+- Display blog posts, events, businesses (read from API)
+- Public submission forms (POST to Laravel API)
+- User profile management (users managing their own data)
+- Client-side analytics tracking
+- Public pages, landing pages
+
+**❌ FORBIDDEN:**
+- Admin dashboards
+- Admin CRUD interfaces
+- Content management
+- User management (admin level)
+- Analytics dashboards
+- Data processing
+- Direct database access
+- ANY admin features
+
+### Backend (Laravel) - `admin.hudsonlifedispatch.com`
+
+**✅ THIS IS WHERE EVERYTHING GOES:**
+- ALL Filament admin resources
+- ALL admin dashboards
+- ALL CRUD operations
+- ALL business logic
+- ALL data processing
+- ALL analytics dashboards
+- ALL content management
+- ALL user management (admin level)
+- Public API endpoints for frontend
+
+## 🎯 Simple Decision Tree
+
+**When implementing a feature, ask:**
+
+1. **Is it displaying data to public users?** → Frontend
+2. **Is it a public submission form?** → Frontend (form) + Backend (API endpoint)
+3. **Is it user profile management?** → Frontend (UI) + Backend (API endpoint)
+4. **Is it ANYTHING admin-related?** → Backend ONLY
+5. **Is it managing data?** → Backend ONLY
+6. **Is it business logic?** → Backend ONLY
+
+## 📋 Examples
+
+### ✅ Frontend Examples
+- Show list of blog posts
+- Display event calendar
+- Story submission form at `/share-story`
+- User dashboard showing their own submissions
+- Contact form
+- Newsletter signup form
+- Search results page
+
+### ✅ Backend Examples
+- Filament resource for managing blog posts
+- Filament resource for managing story submissions
+- Analytics dashboard in Filament
+- API endpoint: `GET /api/blog-posts`
+- API endpoint: `POST /api/story-submissions`
+- Email newsletter generation
+- Content scraping scripts
+- User role management
+
+## 🚫 Common Mistakes to Avoid
+
+**❌ WRONG:** Creating admin routes in Next.js (`/admin/*`)
+**✅ RIGHT:** All admin is in Laravel Filament at `admin.hudsonlifedispatch.com`
+
+**❌ WRONG:** Building CRUD interfaces in Next.js
+**✅ RIGHT:** Use Filament resources in Laravel
+
+**❌ WRONG:** Direct database access from Next.js
+**✅ RIGHT:** Next.js calls Laravel API, Laravel handles database
+
+**❌ WRONG:** Analytics dashboard in Next.js
+**✅ RIGHT:** Analytics dashboard is a Filament widget in Laravel
+
+**❌ WRONG:** Content management in Next.js
+**✅ RIGHT:** Content management via Filament resources in Laravel
+
+## 🔄 Data Flow
+
+```
+User Request
+    ↓
+Next.js Frontend (Display Layer)
+    ↓
+Laravel API Endpoint
+    ↓
+Laravel Backend (Business Logic)
+    ↓
+Database
 ```
 
-## Key Files in Frontend
+## 📝 API Communication
 
-- `lib/db/schema.ts` - Database tables (towns, events, businesses, real_estate_listings)
-- `lib/db/index.ts` - Database connection
-- `lib/newsletter-generator.ts` - Newsletter content queries
-- `scripts/scrapers/eventbrite-to-db.ts` - Event scraping
-- `scripts/scrapers/business-discovery.ts` - Business discovery
-- `scripts/newsletter/generate-weekly.ts` - Newsletter generation
+**Frontend makes API calls to Backend:**
 
-## Documentation in This Repo
+```typescript
+// Frontend - Fetch data
+const response = await fetch('https://admin.hudsonlifedispatch.com/api/story-categories');
+const categories = await response.json();
 
-- `AUTOMATION-SETUP.md` - Detailed automation documentation
-- `MARKETING-PLAN.md` - 12-month marketing strategy
-- `MARKETING-QUICK-START.md` - 30-day action plan
-- `SEO-STRATEGY-HUDSON-LIFE-DISPATCH.md` - SEO implementation
-- `REPO-STRUCTURE.md` - Repository organization
-
-## Agent Instructions
-
-When working on Hudson Life Dispatch:
-
-1. **Check which repo you're in**
-   - `-main` = documentation only
-   - `-marketing/frontend` = all code
-
-2. **For code changes:**
-   - Navigate to: `/Users/nierda/GitHub/sites/hudson-life-dispatch-marketing/frontend`
-   - Edit code there
-   - Never add code to `-main` repo
-
-3. **For documentation:**
-   - Edit .md files in `-main` repo
-   - Keep references pointing to frontend repo
-
-4. **Running scripts:**
-   - Always `cd` to frontend directory first
-   - Use npm scripts defined in frontend/package.json
-
-## Quick Commands Reference
-
-```bash
-# Switch to code repo
-cd /Users/nierda/GitHub/sites/hudson-life-dispatch-marketing/frontend
-
-# Check what scripts are available
-npm run
-
-# Run full automation pipeline
-npm run scrape:all && npm run newsletter:generate
-
-# Test database connection
-npm run seed:towns
+// Frontend - Submit form
+const response = await fetch('https://admin.hudsonlifedispatch.com/api/story-submissions', {
+  method: 'POST',
+  body: JSON.stringify(formData)
+});
 ```
+
+**Backend provides API endpoints:**
+
+```php
+// routes/api.php
+Route::get('/story-categories', [StoryCategoryController::class, 'index']);
+Route::post('/story-submissions', [StorySubmissionController::class, 'store']);
+```
+
+## 🎓 Remember
+
+The Next.js frontend is a **thin display layer**. It's like a beautiful storefront window - it shows the products (data) but all the inventory management, orders, and business operations happen in the back (Laravel).
+
+**When in doubt: Put it in Laravel Backend.**
 
