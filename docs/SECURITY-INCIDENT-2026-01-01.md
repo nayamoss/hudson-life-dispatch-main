@@ -18,7 +18,7 @@ GitGuardian detected exposed secrets in `nayamoss/hudson-life-dispatch-frontend`
 - Update in Fly.io secrets:
 ```bash
 cd hudson-life-dispatch-frontend
-flyctl secrets set RESEND_API_KEY=new_key_here
+flyctl secrets set RESEND_API_KEY=your_new_resend_api_key_here
 ```
 
 **Database Password:**
@@ -26,11 +26,11 @@ flyctl secrets set RESEND_API_KEY=new_key_here
 cd hudson-life-dispatch-backend
 flyctl postgres connect -a hudson-dispatch-db
 # In postgres shell:
-ALTER USER postgres WITH PASSWORD 'new_secure_password';
+ALTER USER postgres WITH PASSWORD 'your_new_secure_password_here';
 \q
 
 # Update Fly.io secrets:
-flyctl secrets set DATABASE_URL=postgresql://user:NEW_PASSWORD@hostname/db
+flyctl secrets set DATABASE_URL=postgresql://user:your_new_password_here@hostname/db
 ```
 
 **Clerk Keys (if exposed):**
