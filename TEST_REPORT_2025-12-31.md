@@ -9,7 +9,7 @@
 ## ✅ TEST SUMMARY
 
 ### Pre-Testing Setup
-- [x] 0.1 Created test admin user (admin@test.com / TestAdmin123!)
+- [x] 0.1 **Authentication:** Uses Clerk OAuth (magic links / code-based login))
 - [x] 0.2 Verified both servers running (Backend: 8000, Frontend: 3000)
 
 ### Part 1: Backend API Tests
