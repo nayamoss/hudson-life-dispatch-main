@@ -30,3 +30,7 @@
 # Terminal logs
 terminals/
 
+hudson-life-dispatch-frontend/node_modules/
+hudson-life-dispatch-frontend/.next/
+hudson-life-dispatch-backend/vendor/
+hudson-life-dispatch-marketing/node_modules/
