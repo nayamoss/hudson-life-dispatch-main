@@ -43,7 +43,18 @@ Before starting, make sure you have on your OTHER Mac:
 
 ---
 
-## STEP 1: Clone All Repos (Main + Submodules)
+## STEP 1: Clone All Repos (Identical Structure)
+
+Your current Mac has this structure:
+```
+hudson-life-dispatch-main/
+  ├── hudson-life-dispatch-backend/     (Laravel backend - separate repo)
+  ├── hudson-life-dispatch-frontend/    (React frontend - separate repo)
+  ├── hudson-life-dispatch-marketing/   (Marketing site - separate repo)
+  └── (documentation, configs, etc.)
+```
+
+Let's recreate this EXACTLY on your other Mac:
 
 ```bash
 # Open Terminal on your OTHER Mac
@@ -52,28 +63,34 @@ Before starting, make sure you have on your OTHER Mac:
 mkdir -p ~/GitHub/sites
 cd ~/GitHub/sites
 
-# Clone the MAIN repository (this contains the project structure)
-git clone https://github.com/YOUR-USERNAME/hudson-life-dispatch-main.git
+# Create the main folder
+mkdir hudson-life-dispatch-main
 cd hudson-life-dispatch-main
 
-# Clone the BACKEND submodule
-git clone https://github.com/YOUR-USERNAME/hudson-life-dispatch-backend.git
+# Clone BACKEND repo
+git clone https://github.com/nayamoss/hudson-life-dispatch-backend.git
 
-# Clone the FRONTEND submodule
-git clone https://github.com/YOUR-USERNAME/hudson-life-dispatch-marketing.git
+# Clone FRONTEND repo  
+git clone https://github.com/nayamoss/hudson-life-dispatch-frontend.git
 
-# Your folder structure should now look like:
-# hudson-life-dispatch-main/
-#   ├── hudson-life-dispatch-backend/
-#   ├── hudson-life-dispatch-marketing/
-#   └── (documentation files)
+# Clone MARKETING repo
+git clone https://github.com/nayamoss/hudson-life-dispatch-marketing.git
+
+# Clone MAIN repo content (docs and configs)
+git init
+git remote add origin https://github.com/nayamoss/hudson-life-dispatch-main.git
+git pull origin main
 ```
 
-**Verify the structure:**
+**Verify the structure matches:**
 
 ```bash
 ls -la
-# Should see both hudson-life-dispatch-backend and hudson-life-dispatch-marketing folders
+# Should see:
+# - hudson-life-dispatch-backend/
+# - hudson-life-dispatch-frontend/
+# - hudson-life-dispatch-marketing/
+# - README.md, SETUP-OTHER-MAC.md, etc.
 ```
 
 ---
