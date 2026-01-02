@@ -1,12 +1,21 @@
 # 🖥️ SETUP GUIDE FOR YOUR OTHER MAC - AUTOMATED SCRAPER
 
-Copy this entire guide to your **OTHER Mac** and follow it step by step.
+## 📋 What Is This?
+
+**Hudson Life Dispatch** is a local news and community resource aggregator for Hudson Valley, NY. This scraper automatically collects:
+- Local events (concerts, festivals, museum exhibitions, library programs)
+- Job postings (schools, government, local businesses)
+- Pet adoptions (animal rescues, shelters)
+- Real estate listings (homes, rentals, open houses)
+- Community news (local papers, town announcements)
+
+Instead of manually checking 100+ websites daily, this system does it automatically and stores everything in one database that feeds your website/app.
 
 ---
 
-## What This Will Do
+## 🎯 What This Guide Does
 
-Your other Mac will automatically scrape **88 high-value resources** every day:
+Sets up your **OTHER Mac** to automatically scrape **88 high-value resources** every day:
 - 4 RSS feeds (news)
 - 19 Event APIs (Eventbrite, Meetup)
 - 15 Job APIs
@@ -16,7 +25,18 @@ Your other Mac will automatically scrape **88 high-value resources** every day:
 
 **Schedule:** Every 4 hours (6am, 10am, 2pm, 6pm, 10pm) + Daily 2am catch-up  
 **Cost:** ~$3-5/month electricity  
-**Compute:** Very light (88 scrapes/day)
+**Compute:** Very light (88 scrapes/day = ~0.5% CPU usage)
+
+---
+
+## ✅ Prerequisites
+
+Before starting, make sure you have:
+- [ ] Fly.io CLI installed (`brew install flyctl`)
+- [ ] Logged into Fly.io (`fly auth login`)
+- [ ] Homebrew PHP installed (`brew install php composer`)
+- [ ] Git installed
+- [ ] Access to the hudson-life-dispatch GitHub repo
 
 ---
 
@@ -28,34 +48,51 @@ Your other Mac will automatically scrape **88 high-value resources** every day:
 # Navigate to where you want the project
 cd ~/GitHub/sites
 
-# Clone or copy the project (adjust path as needed)
-# If you already have it, skip to Step 2
-
-# Install dependencies
+# Clone the project (if you don't have it yet)
+git clone https://github.com/YOUR-USERNAME/hudson-life-dispatch-main.git
 cd hudson-life-dispatch-main/hudson-life-dispatch-backend
+
+# Install PHP dependencies
 composer install
 ```
 
 ---
 
-## STEP 2: Configure Database Connection
+## STEP 2: Configure Database Connection (Using Fly.io)
+
+```bash
+# Get your Fly.io database credentials
+fly secrets list -a hudson-life-dispatch-backend
+
+# This will show your DB_* variables
+# Copy them to your .env file
+```
+
+**Option A: Auto-configure (recommended):**
+
+```bash
+# Let Fly.io write the .env for you
+fly secrets list -a hudson-life-dispatch-backend | grep "DB_" > .env.fly
+cat .env.fly >> .env
+```
+
+**Option B: Manual copy:**
 
 ```bash
 # Edit .env file
 nano .env
-```
 
-Make sure it points to your Postgres database:
-```
+# Add these from your Fly.io secrets:
 DB_CONNECTION=pgsql
-DB_HOST=your-database-host
+DB_HOST=[from Fly.io secrets]
 DB_PORT=5432
-DB_DATABASE=your-database-name
-DB_USERNAME=your-username
-DB_PASSWORD=your-password
+DB_DATABASE=[from Fly.io secrets]
+DB_USERNAME=[from Fly.io secrets]
+DB_PASSWORD=[from Fly.io secrets]
 ```
 
-Test connection:
+**Test connection:**
+
 ```bash
 php artisan migrate --pretend
 # Should show migrations without errors
