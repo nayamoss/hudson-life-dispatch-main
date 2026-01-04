@@ -1,0 +1,46 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+/tmp/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Composer
+/vendor/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Temporary files
+*.tmp
+*.temp
+
+# Individual repos (separate git repositories)
+hudson-life-dispatch-backend/
+hudson-life-dispatch-frontend/
+hudson-life-dispatch-marketing/
+hudson-life-dispatch-docs/
+
