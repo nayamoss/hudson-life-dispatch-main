@@ -59,4 +59,3 @@ All documentation is in the **hudson-life-dispatch-docs** repository:
 - **AI Skills**: `docs/skills/` - Automation guides
 - **Operational Playbooks**: `local-newsletter-ops/` - Real-world operator guides
 - **Examples**: `ossining-ny-example/` - Complete business plan example
-
